@@ -76,11 +76,13 @@ class BaseDecoratorTestCase(object):
             test_fn('some', 'thing', key='value')
             stub.client.timer.assert_called_with('a.metric', tags=self.tags)
 
+
 class TestStatsdDefaultClient(BaseDecoratorTestCase):
     def setup(self):
         self.tags = ['StatsClient_doesnt_do_tags!']
         self.client_class = StatsdClient
         statsdecor.configure()
+
 
 class TestDogStatsdClient(BaseDecoratorTestCase):
     def setup(self):
