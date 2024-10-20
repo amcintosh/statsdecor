@@ -55,10 +55,12 @@ def client():
         configure({})
     return _stats_client
 
+
 def client_supports_tags():
     if isinstance(client(), DogStatsdClient):
         return True
     return False
+
 
 def incr(name, value=1, rate=1, tags=None):
     """Increment a metric by value.

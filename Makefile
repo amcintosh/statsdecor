@@ -37,7 +37,8 @@ clean-test:
 	rm -f junit.xml
 
 lint:
-	flake8 statsdecor tests
+	flake8 statsdecor --count --show-source --statistics
+	flake8 tests --count --show-source --statistics
 
 test:
 	py.test --junitxml=junit.xml \

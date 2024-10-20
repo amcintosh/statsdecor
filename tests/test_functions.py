@@ -92,7 +92,7 @@ class TestStatsdDefaultClient(BaseFunctionTestCase):
 
     def test_should_not_support_tags(self):
         statsdecor.configure(port=9999)
-        client = statsdecor.client()
+        statsdecor.client()
         assert not statsdecor.client_supports_tags()
 
 
@@ -119,5 +119,5 @@ class TestDogStatsdClient(BaseFunctionTestCase):
 
     def test_should_support_tags(self):
         statsdecor.configure(port=9999)
-        client = statsdecor.client()
+        statsdecor.client()
         assert statsdecor.client_supports_tags()

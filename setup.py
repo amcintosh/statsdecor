@@ -19,9 +19,11 @@ setup(
                 'for adding statsd metrics to applications.',
     long_description=readme + '\n\n',
     long_description_content_type='text/markdown',
+    maintainer="Andrew McIntosh",
+    maintainer_email="andrew@amcintosh.net",
     author='Freshbooks Dev Team',
     author_email='opensource@freshbooks.com',
-    url='https://github.com/freshbooks/statsdecor',
+    url='https://github.com/amcintosh/statsdecor',
     packages=find_packages(exclude=['test*']),
     include_package_data=True,
     install_requires=requirements,
@@ -35,11 +37,13 @@ setup(
         'Natural Language :: English',
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11"
+        "Programming Language :: Python :: 3.11",
+        "Programming Language :: Python :: 3.12",
+        "Programming Language :: Python :: 3.13"
     ],
     test_suite='tests'
 )
