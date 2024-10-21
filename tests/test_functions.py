@@ -1,11 +1,10 @@
-import statsdecor
+import pytest
 import statsd
 from datadog import DogStatsd
+
+import statsdecor
+from statsdecor.clients import DogStatsdClient, StatsdClient
 from tests.conftest import stub_client
-from statsdecor.clients import (
-    DogStatsdClient,
-    StatsdClient
-)
 
 
 class BaseFunctionTestCase(object):
@@ -69,8 +68,10 @@ class BaseFunctionTestCase(object):
 
 
 class TestStatsdDefaultClient(BaseFunctionTestCase):
-    def setup(self):
-        self.client_class = StatsdClient
+    client_class = StatsdClient
+
+    @pytest.fixture(autouse=True)
+    def client_configure(self):
         statsdecor.configure(vendor='')
 
     def test_client_created_if_no_existing_client__with_no_config(self, monkeypatch):
@@ -97,9 +98,11 @@ class TestStatsdDefaultClient(BaseFunctionTestCase):
 
 
 class TestDogStatsdClient(BaseFunctionTestCase):
-    def setup(self):
-        self.vendor = 'datadog'
-        self.client_class = DogStatsdClient
+    client_class = DogStatsdClient
+    vendor = 'datadog'
+
+    @pytest.fixture(autouse=True)
+    def client_configure(self):
         statsdecor.configure(vendor=self.vendor)
 
     def test_configure_and_create(self):
