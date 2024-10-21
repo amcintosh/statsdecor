@@ -1,7 +1,9 @@
 # Statsdecor
 
+[![PyPI](https://img.shields.io/pypi/v/statsdecor)](https://pypi.org/project/statsdecor/)
+![PyPI - Python Version](https://img.shields.io/pypi/pyversions/statsdecor)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.txt)
-[![Build Status](https://api.travis-ci.org/freshbooks/statsdecor.svg)](https://travis-ci.org/freshbooks/statsdecor)
+[![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/amcintosh/statsdecor/run-tests.yml?branch=main)](https://github.com/amcintosh/statsdecor/actions?query=workflow%3A%22Run+Tests%22)
 
 A set of decorators and helper methods for adding statsd metrics to applications.
 
@@ -27,6 +29,17 @@ statsdecor.configure(host='localhost', prefix='superapp.')
 Configuration is generally setup during your application's bootstrap. Once
 set configuration values are re-used in all clients that `statsdecor` creates.
 
+By default Statsdecor uses the [statsd](https://pypi.org/project/statsd/) client library,
+however it can be configured to use the [datadog](https://pypi.org/project/datadog/) client:
+
+```python
+import statsdecor
+
+statsdecor.configure(host='localhost', prefix='superapp.', vendor='datadog')
+```
+
+The datadog client supports [tagging metrics](https://statsd.readthedocs.io/en/stable/tags.html) (see Usage).
+
 ## Usage
 
 You can track metrics with either the module functions, or decorators. Incrementing
@@ -40,6 +53,12 @@ import statsdecor
 statsdecor.incr('save.succeeded')
 statsdecor.decr('attempts.remaining')
 statsdecor.gauge('sessions.active', 9001)
+```
+
+When using the datadog client, Statsdecor supports tagging metrics:
+
+```python
+statsdecor.incr('save.succeeded', tags=['DogStatsd_does_tags'])
 ```
 
 Counters and timers can also be set through decorators:
@@ -65,10 +84,10 @@ does not raise an error.
 
 ### Context
 
-Statsdecor includes a context manager that can help measure latency and volume
-while using metric tags to classify their success & failure.  For example,
-suppose you are making a call to a remote service and wish to write a wrapper
-that collects latency, volume and failure metrics.
+When using a [statsd client that supports tagging metrics](https://statsd.readthedocs.io/en/stable/tags.html),
+Statsdecor includes a context manager that can help measure latency and volume while using metric tags to
+classify their success & failure. For example, suppose you are making a call to a remote service and wish
+to write a wrapper that collects latency, volume and failure metrics.
 
 With our knowledge about how the client library indicates errors we can make a context manager
 based on StatsContext:
@@ -125,14 +144,12 @@ Now we can graph:
 
 ## Development
 
-### Testing and coverage
+### Testing
 
 ```shell
+make lint
 make test
-make coverage
 ```
-
-You can track metrics with either the module functions, or decorators. Incrementing
 
 ### Releasing
 
