@@ -1,12 +1,10 @@
-import statsdecor.decorators as decorators
-import statsdecor
-from tests.conftest import stub_client
+import pytest
 from mock import MagicMock
-from statsdecor.clients import (
-    DogStatsdClient,
-    StatsdClient
-)
 
+import statsdecor
+import statsdecor.decorators as decorators
+from statsdecor.clients import DogStatsdClient, StatsdClient
+from tests.conftest import stub_client
 
 NO_TAGS = None
 
@@ -78,15 +76,19 @@ class BaseDecoratorTestCase(object):
 
 
 class TestStatsdDefaultClient(BaseDecoratorTestCase):
-    def setup(self):
-        self.tags = ['StatsClient_doesnt_do_tags!']
-        self.client_class = StatsdClient
+    tags = ['StatsClient_doesnt_do_tags!']
+    client_class = StatsdClient
+
+    @pytest.fixture(autouse=True)
+    def client_configure(self):
         statsdecor.configure()
 
 
 class TestDogStatsdClient(BaseDecoratorTestCase):
-    def setup(self):
-        self.tags = ['DogStatsd_does_tags!']
-        self.vendor = 'datadog'
-        self.client_class = DogStatsdClient
+    tags = ['DogStatsd_does_tags!']
+    vendor = 'datadog'
+    client_class = DogStatsdClient
+
+    @pytest.fixture(autouse=True)
+    def client_configure(self):
         statsdecor.configure(vendor=self.vendor)

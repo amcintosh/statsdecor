@@ -1,5 +1,5 @@
 -r requirements.txt
-pytest<8.0
+pytest
 pytest-cov
 flake8
 coverage

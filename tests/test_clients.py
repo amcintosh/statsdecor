@@ -11,8 +11,10 @@ NO_TAGS = None
 
 
 class TestStatsdDefaultClient(object):
-    def setup(self):
-        self.tags = ['StatsClient_doesnt_do_tags!']
+    tags = ['StatsClient_doesnt_do_tags!']
+
+    @pytest.fixture(autouse=True)
+    def client_configure(self):
         statsdecor.configure(vendor='')
 
     @patch('statsd.client.StatsClient.incr')
@@ -60,9 +62,11 @@ class TestStatsdDefaultClient(object):
 
 
 class TestDogStatsdClient(object):
-    def setup(self):
-        self.tags = ['DogStatsd_does_tags!']
-        self.vendor = 'datadog'
+    tags = ['DogStatsd_does_tags!']
+    vendor = 'datadog'
+
+    @pytest.fixture(autouse=True)
+    def client_configure(self):
         statsdecor.configure(vendor=self.vendor)
 
     @patch('datadog.dogstatsd.DogStatsd.increment')

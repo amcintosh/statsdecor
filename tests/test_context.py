@@ -1,3 +1,4 @@
+import pytest
 from mock import patch
 
 import statsdecor
@@ -31,12 +32,12 @@ class _TestException(Exception):
 
 
 class TestStatsContext(object):
-    def setup(self):
-        self.tags = ['DogStatsd_does_tags!']
-        self.vendor = 'datadog'
+    tags = ['DogStatsd_does_tags!']
+    vendor = 'datadog'
+
+    @pytest.fixture(autouse=True)
+    def client_configure(self):
         statsdecor.configure(vendor=self.vendor)
-        # DELETE me
-        self.mock_current_app = None
 
     @patch('datadog.dogstatsd.DogStatsd.increment')
     @patch('datadog.dogstatsd.DogStatsd.timing')
