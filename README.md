@@ -157,8 +157,9 @@ statsdecor uses [semver](https://semver.org) for version numbers. Before tagging
 check for all changes since the last tag for breaking changes, new features,
 and/or bugfixes.
 
-1. edit VERSION
-2. commit/pr/merge bump to VERSION
-3. `make tag`
-4. `make test-release` (requires [TestPyPI](https://test.pypi.org/) creds in `~/.pypirc` as `testpypi`)
-5. `make release` (requires [PyPI](https://pypi.org/) creds in `~/.pypirc` as `pypi`)
+To tag the new version:
+
+`make tag VERSION_PART=major|minor|patch`
+
+Proceed to github.com/amcintosh/statsdecor/releases and create a new release with the tag.
+Github actions should publish to pypi automatically.
