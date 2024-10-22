@@ -52,19 +52,20 @@ test:
 test-all:
 	tox
 
-release: clean
-	python3 setup.py sdist bdist_wheel
-	twine upload --repository pypi dist/*
-
-test-release: clean
-	python3 setup.py sdist bdist_wheel
-	twine upload --repository testpypi dist/*
-
-dist: clean
-	python3 setup.py sdist
-	python3 setup.py bdist_wheel
-	ls -l dist
-
 tag:
-	git tag $(shell cat VERSION)
-	git push --tags
+	@if [ "$(BRANCH_NAME)" != "main" ]; then \
+		echo "You must be on main to update the version"; \
+		exit 1; \
+	fi;
+	@if [ "$(VERSION_PART)" = '' ]; then \
+		echo "Must specify VERSION_PART to bump (major, minor, patch)."; \
+		exit 1; \
+	fi;
+	pip install bumpversion
+	git stash && \
+	git fetch --all && \
+	git reset --hard origin/main && \
+	bumpversion $(VERSION_PART) && \
+	git push origin --tags && \
+	git push origin main && \
+	git stash pop
