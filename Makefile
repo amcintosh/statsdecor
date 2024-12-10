@@ -1,6 +1,10 @@
 .PHONY: clean-pyc clean-build docs clean install lint test test-all
 .PHONY: coverage release dist
 
+ifeq ($(BRANCH_NAME),)
+BRANCH_NAME="$$(git rev-parse --abbrev-ref HEAD)"
+endif
+
 help:
 	@echo "install - Install development dependencies."
 	@echo "clean - Remove all build, test, coverage and Python artifacts."

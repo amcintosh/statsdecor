@@ -159,7 +159,9 @@ and/or bugfixes.
 
 To tag the new version:
 
-`make tag VERSION_PART=major|minor|patch`
+```shell
+make tag VERSION_PART=major|minor|patch
+```
 
 Proceed to github.com/amcintosh/statsdecor/releases and create a new release with the tag.
 Github actions should publish to pypi automatically.
